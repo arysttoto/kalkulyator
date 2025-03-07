@@ -1,0 +1,92 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Калькулятор квадратных уравнений | Решение уравнений онлайн
+{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="Решите квадратные уравнения онлайн. Введите коэффициенты a, b и c, чтобы найти корни уравнения. Подходит для учеников, студентов и преподавателей.">
+    <meta name="keywords" content="квадратное уравнение, калькулятор уравнений, калькулятор квадратных уравнений онлайн, дискриминант, корни уравнения, математика онлайн">
+{% endblock %}
+
+{% block main %}
+<header class="bg-primary text-white text-center py-10">
+    <div class="container">
+        <h1 class="fw-bold">Калькулятор квадратных уравнений ✏️</h1>
+        <p class="lead">Решите уравнение вида <strong>ax² + bx + c = 0</strong> мгновенно.</p>
+    </div>
+</header>
+
+<main class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg p-4">
+                <h2 class="text-center">🔢 Введите коэффициенты</h2>
+                <form id="quadraticForm">
+                    <div class="mb-3">
+                        <label for="a" class="form-label">Коэффициент a (≠ 0)</label>
+                        <input type="number" class="form-control" id="a" step="0.01" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="b" class="form-label">Коэффициент b</label>
+                        <input type="number" class="form-control" id="b" step="0.01" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="c" class="form-label">Коэффициент c</label>
+                        <input type="number" class="form-control" id="c" step="0.01" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Рассчитать</button>
+                </form>
+                
+                <div class="mt-4 d-none" id="resultContainer">
+                    <h4>📊 Результат:</h4>
+                    <p><strong>Дискриминант (D):</strong> <span id="discriminant">0</span></p>
+                    <p id="solution"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<section class="container my-5">
+    <h2 class="text-center mb-4">💡 Как работает калькулятор?</h2>
+    <p>Просто введите коэффициенты <strong>a, b</strong> и <strong>c</strong>, и мы мгновенно найдем корни уравнения!  
+       Мы используем дискриминант D = b² - 4ac для определения количества решений.</p>
+</section>
+
+<script>
+document.getElementById('quadraticForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const a = parseFloat(document.getElementById('a').value);
+    const b = parseFloat(document.getElementById('b').value);
+    const c = parseFloat(document.getElementById('c').value);
+
+    if (a === 0) {
+        alert('Коэффициент a не может быть 0!');
+        return;
+    }
+
+    const discriminant = b * b - 4 * a * c;
+    document.getElementById('discriminant').textContent = discriminant.toFixed(2);
+    const solutionContainer = document.getElementById('solution');
+
+    let resultHTML = "";
+
+    if (discriminant > 0) {
+        const x1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+        const x2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+        resultHTML = `✅ Два корня: <strong>x₁ = ${x1.toFixed(4)}</strong>, <strong>x₂ = ${x2.toFixed(4)}</strong>`;
+    } else if (discriminant === 0) {
+        const x = -b / (2 * a);
+        resultHTML = `✔ Один корень: <strong>x = ${x.toFixed(4)}</strong>`;
+    } else {
+        resultHTML = '❌ Корней нет (дискриминант отрицательный)';
+    }
+
+    solutionContainer.innerHTML = resultHTML;
+    document.getElementById('resultContainer').classList.remove('d-none');
+});
+</script>
+
+{% endblock %}

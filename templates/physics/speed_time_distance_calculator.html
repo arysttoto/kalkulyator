@@ -1,0 +1,131 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Калькулятор скорости, времени и расстояния | Онлайн расчёты
+{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="Онлайн-калькулятор скорости, времени и расстояния. Рассчитайте за секунды с удобным интерфейсом.">
+    <meta name="keywords" content="калькулятор скорости, скорость время расстояние, расчет скорости, онлайн-калькулятор расстояния, формула скорости, физика, время в пути">
+{% endblock %}
+
+{% block main %}
+
+<header class="bg-primary text-white text-center py-10">
+    <div class="container">
+        <h1 class="fw-bold">🚀 Калькулятор скорости, времени и расстояния</h1>
+        <p class="lead">Рассчитайте скорость, время или расстояние за секунды!</p>
+    </div>
+</header>
+
+
+<section class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg p-4">
+                <h2 class="text-center">🔢 Введите данные</h2>
+                <form id="motionForm">
+                    <div class="mb-3">
+                        <label class="form-label">Что нужно рассчитать?</label>
+                        <select id="calcType" class="form-select">
+                            <option value="speed">Скорость (V)</option>
+                            <option value="time">Время (T)</option>
+                            <option value="distance">Расстояние (S)</option>
+                        </select>
+                    </div>
+
+                    <div id="inputFields">
+
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Рассчитать</button>
+                </form>
+
+                <div class="mt-4 d-none" id="resultContainer">
+                    <h4>📌 Результат:</h4>
+                    <p><strong id="motionResult">0</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="container my-5">
+    <h2 class="text-center mb-4">📍 Формулы расчёта</h2>
+    <ul>
+        <li><strong>Скорость (V):</strong> V = S / T</li>
+        <li><strong>Время (T):</strong> T = S / V</li>
+        <li><strong>Расстояние (S):</strong> S = V × T</li>
+    </ul>
+</section>
+
+<script>
+document.getElementById('calcType').addEventListener('change', updateInputFields);
+document.getElementById('motionForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    calculateMotion();
+});
+
+function updateInputFields() {
+    const calcType = document.getElementById('calcType').value;
+    const inputFields = document.getElementById('inputFields');
+    inputFields.innerHTML = '';
+
+    const inputTemplates = {
+        speed: [
+            { id: 'distance', label: 'Расстояние (S), км' },
+            { id: 'time', label: 'Время (T), часы' }
+        ],
+        time: [
+            { id: 'distance', label: 'Расстояние (S), км' },
+            { id: 'speed', label: 'Скорость (V), км/ч' }
+        ],
+        distance: [
+            { id: 'speed', label: 'Скорость (V), км/ч' },
+            { id: 'time', label: 'Время (T), часы' }
+        ]
+    };
+
+    inputTemplates[calcType].forEach(input => {
+        inputFields.innerHTML += `
+            <div class="mb-3">
+                <label for="${input.id}" class="form-label">${input.label}</label>
+                <input type="number" class="form-control" id="${input.id}" required>
+            </div>
+        `;
+    });
+}
+
+function calculateMotion() {
+    const calcType = document.getElementById('calcType').value;
+    let result = 0;
+
+    switch (calcType) {
+        case 'speed':
+            const distanceS = parseFloat(document.getElementById('distance').value);
+            const timeS = parseFloat(document.getElementById('time').value);
+            result = distanceS / timeS;
+            break;
+        case 'time':
+            const distanceT = parseFloat(document.getElementById('distance').value);
+            const speedT = parseFloat(document.getElementById('speed').value);
+            result = distanceT / speedT;
+            break;
+        case 'distance':
+            const speedD = parseFloat(document.getElementById('speed').value);
+            const timeD = parseFloat(document.getElementById('time').value);
+            result = speedD * timeD;
+            break;
+    }
+
+    document.getElementById('motionResult').textContent = result.toFixed(2) + 
+        (calcType === 'speed' ? ' км/ч' : calcType === 'time' ? ' часов' : ' км');
+    document.getElementById('resultContainer').classList.remove('d-none');
+}
+
+
+updateInputFields();
+</script>
+
+{% endblock %}

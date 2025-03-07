@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Ошибка 404 | Страница не найдена
+{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="Запрашиваемая страница не найдена. Возможно, она была удалена или перемещена.">
+    <meta name="robots" content="noindex, follow">
+{% endblock %}
+
+{% block main %}
+<header class="bg-danger text-white text-center py-5">
+    <div class="container">
+        <h1 class="fw-bold">Ошибка 404</h1>
+        <p class="lead">Страница не найдена 😔</p>
+    </div>
+</header>
+
+<main class="container text-center my-5">
+    <h2>😕 Ой! Кажется, вы потерялись.</h2>
+    <p>Страница, которую вы ищете, не существует. Возможно, она была перемещена или удалена.</p>
+    <a href="/" class="btn btn-primary">🏠 Вернуться на главную</a>
+</main>
+{% endblock %}

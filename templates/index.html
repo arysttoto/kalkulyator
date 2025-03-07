@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Все калькуляторы онлайн | Математика, Физика, Финансы
+{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="Каталог бесплатных онлайн-калькуляторов по математике, физике и финансам. Удобные инструменты для решения задач.">
+    <meta name="keywords" content="калькулятор, математика, физика, финансы, онлайн калькуляторы">
+{% endblock %}
+
+{% block main %}
+<!-- Hero Section -->
+<header class="bg-primary text-white text-center py-10">
+    <div class="container">
+        <h1 class="fw-bold">🔢 Все онлайн-калькуляторы</h1>
+        <p class="lead">Решайте задачи мгновенно! Выберите нужный калькулятор.</p>
+    </div>
+</header>
+
+<!-- Calculator Categories -->
+<section class="container my-5">
+    <h2 class="text-center mb-4">📚 Категории калькуляторов</h2>
+    
+    <div class="row">
+        <!-- Math Calculators -->
+        <div class="col-lg-6 mb-4">
+            <h3 class="fw-bold">📐 Математика</h3>
+            <ul class="list-group">
+                <li class="list-group-item"><a href="/matematika/kvadratnoe-uravnenie/">Решение квадратного уравнения</a></li>
+                <li class="list-group-item"><a href="/matematika/procenty/">Калькулятор процентов</a></li>
+                <li class="list-group-item"><a href="/matematika/ploshchad-figur/">Площадь фигур</a></li>
+            </ul>
+        </div>
+
+        <!-- Physics Calculators -->
+        <div class="col-lg-6 mb-4">
+            <h3 class="fw-bold">⚡ Физика</h3>
+            <ul class="list-group">
+                <li class="list-group-item"><a href="/fizika/zakon-oma/">Калькулятор закона Ома</a></li>
+                <li class="list-group-item"><a href="/fizika/skorost-vremya-rasstoyanie/">Скорость, время, расстояние</a></li>
+            </ul>
+        </div>
+
+        <!-- Finance Calculators -->
+        <div class="col-lg-6 mb-4">
+            <h3 class="fw-bold">💰 Финансы</h3>
+            <ul class="list-group">
+                <li class="list-group-item"><a href="/finansy/kreditnyj-kalkulyator/">Кредитный калькулятор</a></li>
+                <li class="list-group-item"><a href="/finansy/ipotechnyj-kalkulyator/">Ипотечный калькулятор</a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

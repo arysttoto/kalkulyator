@@ -1,0 +1,142 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Калькулятор площади фигур | Онлайн расчет площади
+{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="Бесплатный калькулятор площади онлайн. Рассчитайте площадь круга, квадрата, треугольника, прямоугольника и других фигур быстро и удобно!">
+    <meta name="keywords" content="калькулятор площади, площадь фигуры, рассчитать площадь, площадь круга, площадь квадрата, площадь треугольника, площадь прямоугольника, площадь онлайн">
+{% endblock %}
+
+{% block main %}
+<header class="bg-primary text-white text-center py-10">
+    <div class="container">
+        <h1 class="fw-bold">📐 Калькулятор площади</h1>
+        <p class="lead">Рассчитайте площадь круга, квадрата, треугольника и других фигур онлайн.</p>
+    </div>
+</header>
+
+
+<section class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg p-4">
+                <h2 class="text-center">🔢 Введите данные</h2>
+                <form id="areaForm">
+                    <div class="mb-3">
+                        <label class="form-label">Выберите фигуру</label>
+                        <select id="shape" class="form-select">
+                            <option value="square">Квадрат</option>
+                            <option value="rectangle">Прямоугольник</option>
+                            <option value="circle">Круг</option>
+                            <option value="triangle">Треугольник</option>
+                            <option value="parallelogram">Параллелограмм</option>
+                            <option value="trapezoid">Трапеция</option>
+                        </select>
+                    </div>
+
+                    <div id="inputFields">
+                        
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Рассчитать</button>
+                </form>
+
+                <div class="mt-4 d-none" id="resultContainer">
+                    <h4>📌 Результат:</h4>
+                    <p>Площадь: <strong id="areaResult">0</strong> см²</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="container my-5">
+    <h2 class="text-center mb-4">📍 Формулы расчета площади</h2>
+    <ul>
+        <li><strong>Квадрат:</strong> S = a²</li>
+        <li><strong>Прямоугольник:</strong> S = a × b</li>
+        <li><strong>Круг:</strong> S = π × r²</li>
+        <li><strong>Треугольник:</strong> S = ½ × a × h</li>
+        <li><strong>Параллелограмм:</strong> S = a × h</li>
+        <li><strong>Трапеция:</strong> S = ½ × (a + b) × h</li>
+    </ul>
+</section>
+
+<script>
+document.getElementById('shape').addEventListener('change', updateInputFields);
+document.getElementById('areaForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    calculateArea();
+});
+
+function updateInputFields() {
+    const shape = document.getElementById('shape').value;
+    const inputFields = document.getElementById('inputFields');
+    inputFields.innerHTML = '';
+
+    const inputTemplates = {
+        square: [{ id: 'side', label: 'Сторона (a)' }],
+        rectangle: [{ id: 'length', label: 'Длина (a)' }, { id: 'width', label: 'Ширина (b)' }],
+        circle: [{ id: 'radius', label: 'Радиус (r)' }],
+        triangle: [{ id: 'base', label: 'Основание (a)' }, { id: 'height', label: 'Высота (h)' }],
+        parallelogram: [{ id: 'base', label: 'Основание (a)' }, { id: 'height', label: 'Высота (h)' }],
+        trapezoid: [{ id: 'base1', label: 'Основание 1 (a)' }, { id: 'base2', label: 'Основание 2 (b)' }, { id: 'height', label: 'Высота (h)' }]
+    };
+
+    inputTemplates[shape].forEach(input => {
+        inputFields.innerHTML += `
+            <div class="mb-3">
+                <label for="${input.id}" class="form-label">${input.label} (см)</label>
+                <input type="number" class="form-control" id="${input.id}" required>
+            </div>
+        `;
+    });
+}
+
+function calculateArea() {
+    const shape = document.getElementById('shape').value;
+    let area = 0;
+
+    switch (shape) {
+        case 'square':
+            const side = parseFloat(document.getElementById('side').value);
+            area = side * side;
+            break;
+        case 'rectangle':
+            const length = parseFloat(document.getElementById('length').value);
+            const width = parseFloat(document.getElementById('width').value);
+            area = length * width;
+            break;
+        case 'circle':
+            const radius = parseFloat(document.getElementById('radius').value);
+            area = Math.PI * radius * radius;
+            break;
+        case 'triangle':
+            const base = parseFloat(document.getElementById('base').value);
+            const height = parseFloat(document.getElementById('height').value);
+            area = 0.5 * base * height;
+            break;
+        case 'parallelogram':
+            const pBase = parseFloat(document.getElementById('base').value);
+            const pHeight = parseFloat(document.getElementById('height').value);
+            area = pBase * pHeight;
+            break;
+        case 'trapezoid':
+            const base1 = parseFloat(document.getElementById('base1').value);
+            const base2 = parseFloat(document.getElementById('base2').value);
+            const tHeight = parseFloat(document.getElementById('height').value);
+            area = 0.5 * (base1 + base2) * tHeight;
+            break;
+    }
+
+    document.getElementById('areaResult').textContent = area.toFixed(2);
+    document.getElementById('resultContainer').classList.remove('d-none');
+}
+
+updateInputFields();
+</script>
+
+{% endblock %}

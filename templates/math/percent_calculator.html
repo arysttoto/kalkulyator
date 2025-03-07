@@ -1,0 +1,112 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Калькулятор процентов онлайн | Процент от суммы, наценка, изменение
+{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="Бесплатный калькулятор процентов онлайн. Вычисляйте процент от числа, наценку, процентное изменение и скидку быстро и удобно!">
+    <meta name="keywords" content="калькулятор процентов, калькулятор процентов онлайн, процент от суммы калькулятор, калькулятор процентов от числа, процентная наценка, процентная скидка, процентное изменение">
+{% endblock %}
+
+{% block main %}
+
+<header class="bg-primary text-white text-center py-10">
+    <div class="container">
+        <h1 class="fw-bold">📊 Калькулятор процентов онлайн</h1>
+        <p class="lead">Вычисляйте процент от числа, наценку, процентное изменение и скидку.</p>
+    </div>
+</header>
+
+
+<section class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg p-4">
+                <h2 class="text-center">🔢 Введите данные</h2>
+                <form id="percentForm">
+                    <div class="mb-3">
+                        <label for="number" class="form-label">Число</label>
+                        <input type="number" class="form-control" id="number" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="percent" class="form-label">Процент (%)</label>
+                        <input type="number" class="form-control" id="percent" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Выберите операцию</label>
+                        <select id="operation" class="form-select">
+                            <option value="percent_of">Процент от числа</option>
+                            <option value="increase">Наценка (+%)</option>
+                            <option value="decrease">Скидка (-%)</option>
+                            <option value="change">Процентное изменение</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Рассчитать</button>
+                </form>
+
+                <div class="mt-4 d-none" id="resultContainer">
+                    <h4>📌 Результат:</h4>
+                    <p><strong id="resultText"></strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="container my-5">
+    <h2 class="text-center mb-4">🔍 Как работает калькулятор?</h2>
+    <p>
+        Этот калькулятор помогает легко вычислять проценты:
+    </p>
+    <ul>
+        <li><strong>Процент от числа</strong>: например, 15% от 200 = 30.</li>
+        <li><strong>Наценка</strong>: 200 + 15% = 230.</li>
+        <li><strong>Скидка</strong>: 200 - 15% = 170.</li>
+        <li><strong>Процентное изменение</strong>: было 200, стало 250 → рост на 25%.</li>
+    </ul>
+</section>
+
+<script>
+document.getElementById('percentForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const number = parseFloat(document.getElementById('number').value);
+    const percent = parseFloat(document.getElementById('percent').value);
+    const operation = document.getElementById('operation').value;
+
+    let resultText = '';
+
+    if (number >= 0 && percent >= 0) {
+        switch (operation) {
+            case 'percent_of':
+                resultText = `${percent}% от ${number} = ${(number * percent / 100).toFixed(2)}`;
+                break;
+            case 'increase':
+                resultText = `${number} + ${percent}% = ${(number * (1 + percent / 100)).toFixed(2)}`;
+                break;
+            case 'decrease':
+                resultText = `${number} - ${percent}% = ${(number * (1 - percent / 100)).toFixed(2)}`;
+                break;
+            case 'change':
+                const newValue = parseFloat(prompt("Введите новое значение:"));
+                if (!isNaN(newValue) && newValue >= 0) {
+                    const changePercent = ((newValue - number) / number * 100).toFixed(2);
+                    resultText = `Процентное изменение: ${changePercent}%`;
+                } else {
+                    alert("Введите корректное новое значение!");
+                    return;
+                }
+                break;
+        }
+        
+        document.getElementById('resultText').textContent = resultText;
+        document.getElementById('resultContainer').classList.remove('d-none');
+    } else {
+        alert('Введите корректные значения!');
+    }
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,4 @@
+cs50==9.4.0
+Flask==3.0.3
+Flask-Session==0.8.0 
+flask-caching==2.3.1

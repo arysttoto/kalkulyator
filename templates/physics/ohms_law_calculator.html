@@ -1,0 +1,129 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Калькулятор закона Ома | Онлайн расчет напряжения, силы тока и сопротивления
+{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="Рассчитайте силу тока, напряжение и сопротивление по закону Ома. Удобный онлайн-калькулятор для физических расчетов.">
+    <meta name="keywords" content="калькулятор закона Ома, закон Ома, расчет тока, расчет напряжения, расчет сопротивления, сила тока, напряжение, сопротивление">
+{% endblock %}
+
+{% block main %}
+
+<header class="bg-primary text-white text-center py-10">
+    <div class="container">
+        <h1 class="fw-bold">⚡ Калькулятор закона Ома</h1>
+        <p class="lead">Рассчитайте силу тока, напряжение и сопротивление по закону Ома.</p>
+    </div>
+</header>
+
+
+<section class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg p-4">
+                <h2 class="text-center">🔢 Введите данные</h2>
+                <form id="ohmForm">
+                    <div class="mb-3">
+                        <label class="form-label">Что нужно рассчитать?</label>
+                        <select id="calcType" class="form-select">
+                            <option value="voltage">Напряжение (V)</option>
+                            <option value="current">Сила тока (I)</option>
+                            <option value="resistance">Сопротивление (R)</option>
+                        </select>
+                    </div>
+
+                    <div id="inputFields">
+                        
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Рассчитать</button>
+                </form>
+
+                <div class="mt-4 d-none" id="resultContainer">
+                    <h4>📌 Результат:</h4>
+                    <p><strong id="ohmResult">0</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="container my-5">
+    <h2 class="text-center mb-4">📍 Формулы закона Ома</h2>
+    <ul>
+        <li><strong>Напряжение (V):</strong> V = I × R</li>
+        <li><strong>Сила тока (I):</strong> I = V / R</li>
+        <li><strong>Сопротивление (R):</strong> R = V / I</li>
+    </ul>
+</section>
+
+<script>
+document.getElementById('calcType').addEventListener('change', updateInputFields);
+document.getElementById('ohmForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    calculateOhm();
+});
+
+function updateInputFields() {
+    const calcType = document.getElementById('calcType').value;
+    const inputFields = document.getElementById('inputFields');
+    inputFields.innerHTML = '';
+
+    const inputTemplates = {
+        voltage: [
+            { id: 'current', label: 'Сила тока (I), A' },
+            { id: 'resistance', label: 'Сопротивление (R), Ом' }
+        ],
+        current: [
+            { id: 'voltage', label: 'Напряжение (V), В' },
+            { id: 'resistance', label: 'Сопротивление (R), Ом' }
+        ],
+        resistance: [
+            { id: 'voltage', label: 'Напряжение (V), В' },
+            { id: 'current', label: 'Сила тока (I), A' }
+        ]
+    };
+
+    inputTemplates[calcType].forEach(input => {
+        inputFields.innerHTML += `
+            <div class="mb-3">
+                <label for="${input.id}" class="form-label">${input.label}</label>
+                <input type="number" class="form-control" id="${input.id}" required>
+            </div>
+        `;
+    });
+}
+
+function calculateOhm() {
+    const calcType = document.getElementById('calcType').value;
+    let result = 0;
+
+    switch (calcType) {
+        case 'voltage':
+            const current = parseFloat(document.getElementById('current').value);
+            const resistance = parseFloat(document.getElementById('resistance').value);
+            result = current * resistance;
+            break;
+        case 'current':
+            const voltageC = parseFloat(document.getElementById('voltage').value);
+            const resistanceC = parseFloat(document.getElementById('resistance').value);
+            result = voltageC / resistanceC;
+            break;
+        case 'resistance':
+            const voltageR = parseFloat(document.getElementById('voltage').value);
+            const currentR = parseFloat(document.getElementById('current').value);
+            result = voltageR / currentR;
+            break;
+    }
+
+    document.getElementById('ohmResult').textContent = result.toFixed(2) + (calcType === 'voltage' ? ' В' : calcType === 'current' ? ' A' : ' Ом');
+    document.getElementById('resultContainer').classList.remove('d-none');
+}
+
+updateInputFields();
+</script>
+
+{% endblock %}
