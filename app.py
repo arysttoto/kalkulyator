@@ -163,7 +163,7 @@ def area_calculator():
     return render_template("/math/area_calculator.html") 
 ###################################################################
 
-# physics section 
+# physics section
 @app.route("/fizika/")
 @cache.cached(timeout=cache_time) 
 def physics_calculator():
