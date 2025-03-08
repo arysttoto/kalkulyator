@@ -1,16 +1,16 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Все калькуляторы онлайн | Математика, Физика, Финансы
+    Все калькуляторы онлайн | Математика, Физика, Финансы, Здоровье
 {% endblock %}
 
 {% block meta %}
     <meta name="yandex-verification" content="3eea0f5f5767760d" />
-    <meta name="description" content="Каталог бесплатных онлайн-калькуляторов по математике, физике и финансам. Удобные инструменты для решения задач.">
-    <meta name="keywords" content="калькулятор, математика, физика, финансы, онлайн калькуляторы">
-{% endblock %}
+    <meta name="description" content="Каталог бесплатных онлайн-калькуляторов по математике, физике, финансам и здоровью. Удобные инструменты для решения задач.">
+    <meta name="keywords" content="калькулятор, математика, физика, финансы, здоровье и фитнес, онлайн калькуляторы">
+{% endblock %} 
 
-{% block main %}
+{% block main %}  
 <!-- Hero Section -->
 <header class="bg-primary text-white text-center py-10">
     <div class="container">
@@ -49,6 +49,19 @@
             <ul class="list-group">
                 <li class="list-group-item"><a href="/finansy/kreditnyj-kalkulyator/">Кредитный калькулятор</a></li>
                 <li class="list-group-item"><a href="/finansy/ipotechnyj-kalkulyator/">Ипотечный калькулятор</a></li>
+            </ul>
+        </div>
+
+        <!-- Health Calculators -->
+        <div class="col-lg-6 mb-4">
+            <h3 class="fw-bold">💪 Здоровье и фитнес</h3>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a href="/zdorovye/raschet-kalorij-muzhchiny/">Расчёт калорий в день для мужчин</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="/zdorovye/raschet-kalorij-zhenshchiny/">Расчёт калорий в день для женщин</a>
+                </li>
             </ul>
         </div>
     </div>

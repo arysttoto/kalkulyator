@@ -28,16 +28,23 @@ def sitemap():
     urls = [
         ("/", "daily", "1.0"),
         ("/kontakty/", "monthly", "0.8"),
+        # Финансовые калькуляторы
         ("/finansy/", "weekly", "0.9"),
         ("/finansy/kreditnyj-kalkulyator/", "weekly", "0.9"),
         ("/finansy/ipotechnyj-kalkulyator/", "weekly", "0.9"),
+        # Математические калькуляторы
         ("/matematika/", "weekly", "0.9"),
         ("/matematika/kvadratnoe-uravnenie/", "weekly", "0.9"),
         ("/matematika/procenty/", "weekly", "0.9"),
         ("/matematika/ploshchad-figur/", "weekly", "0.9"),
+        # Физические калькуляторы
         ("/fizika/", "weekly", "0.9"),
         ("/fizika/zakon-oma/", "weekly", "0.9"),
-        ("/fizika/skorost-vremya-rasstoyanie/", "weekly", "0.9")
+        ("/fizika/skorost-vremya-rasstoyanie/", "weekly", "0.9"),
+        # Новые: Калькуляторы здоровья
+        ("/zdorovye/", "weekly", "0.9"),
+        ("/zdorovye/raschet-kalorij-zhenshchiny/", "weekly", "0.9"),
+        ("/zdorovye/raschet-kalorij-muzhchiny/", "weekly", "0.9"),
     ]
 
     urlset = ET.Element("urlset", xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
@@ -45,7 +52,7 @@ def sitemap():
     # Generate XML for each page
     for url, changefreq, priority in urls:
         url_element = ET.SubElement(urlset, "url")
-        
+
         loc = ET.SubElement(url_element, "loc")
         loc.text = f"{domain}{url}"
 
@@ -60,7 +67,7 @@ def sitemap():
 
     # Convert XML to string
     xml_str = ET.tostring(urlset, encoding="utf-8", method="xml")
-    
+
     return Response(xml_str, mimetype="application/xml")
 
 
@@ -181,6 +188,25 @@ def ohms_law_calculator():
 def speed_time_distance_calculator():
     return render_template("/physics/speed_time_distance_calculator.html") 
 ###################################################################
+# health section
+@app.route("/zdorovye/")
+@cache.cached(timeout=cache_time)
+def health_calculators():
+    return render_template("health.html")
 
+
+@app.route("/zdorovye/raschet-kalorij-zhenshchiny/")
+@cache.cached(timeout=cache_time)
+def women_calorie_calculator():
+    return render_template("/health/calorie_women_calculator.html")
+
+
+@app.route("/zdorovye/raschet-kalorij-muzhchiny/")
+@cache.cached(timeout=cache_time)
+def men_calorie_calculator():
+    return render_template("/health/calorie_men_calculator.html")
+
+
+################################################################
 if __name__ == "__main__":
     app.run() 

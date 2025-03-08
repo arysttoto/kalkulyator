@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Расчёт калорий в день для женщины | Онлайн калькулятор для похудения
+{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="Рассчитайте норму калорий в день для женщины с учётом возраста, веса и уровня активности. Онлайн калькулятор для похудения и поддержания формы бесплатно.">
+    <meta name="keywords" content="расчёт калорий в день для женщины, онлайн калькулятор, формула расчета калорий, для похудения, уровень активности, БЖУ, суточная норма калорий для женщин">
+{% endblock %}
+
+{% block main %}
+<header class="bg-primary text-white text-center py-10">
+    <div class="container">
+        <h1 class="fw-bold">🍏 Калькулятор суточной нормы калорий для женщин</h1>
+        <p class="lead">Рассчитайте, сколько калорий вам нужно в день для поддержания веса или похудения.</p>
+    </div>
+</header>
+
+<main class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg p-4">
+                <h2 class="text-center">🔢 Введите ваши данные</h2>
+                <form id="calorieForm">
+                    <div class="mb-3">
+                        <label for="weight" class="form-label">Вес (кг)</label>
+                        <input type="number" class="form-control" id="weight" step="0.1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="height" class="form-label">Рост (см)</label>
+                        <input type="number" class="form-control" id="height" step="1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="age" class="form-label">Возраст (лет)</label>
+                        <input type="number" class="form-control" id="age" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="activity" class="form-label">Уровень активности</label>
+                        <select class="form-control" id="activity">
+                            <option value="1.2">Минимальная (сидячий образ жизни)</option>
+                            <option value="1.375">Низкая (легкие тренировки 1-3 раза в неделю)</option>
+                            <option value="1.55">Умеренная (тренировки 3-5 раз в неделю)</option>
+                            <option value="1.725">Высокая (интенсивные тренировки 6-7 раз в неделю)</option>
+                            <option value="1.9">Очень высокая (спортивный или физический труд)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Рассчитать</button>
+                </form>
+
+                <div class="mt-4 d-none" id="resultContainer">
+                    <h4>📊 Ваша суточная норма калорий:</h4>
+                    <p>Для поддержания веса: <strong id="caloriesMaintain">0</strong> ккал/день</p>
+                    <p>Для похудения (-500 ккал/день): <strong id="caloriesLose">0</strong> ккал/день</p>
+                    <p>Для быстрого похудения (-1000 ккал/день): <strong id="caloriesFastLose">0</strong> ккал/день</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+document.getElementById('calorieForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const weight = parseFloat(document.getElementById('weight').value);
+    const height = parseFloat(document.getElementById('height').value);
+    const age = parseInt(document.getElementById('age').value);
+    const activity = parseFloat(document.getElementById('activity').value);
+
+    // Формула Миффлина-Сан Жеора: BMR = 10*вес + 6.25*рост - 5*возраст - 161
+    const bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+    const caloriesMaintain = Math.round(bmr * activity);
+    const caloriesLose = caloriesMaintain - 500;
+    const caloriesFastLose = caloriesMaintain - 1000;
+
+    document.getElementById('caloriesMaintain').textContent = caloriesMaintain;
+    document.getElementById('caloriesLose').textContent = caloriesLose;
+    document.getElementById('caloriesFastLose').textContent = Math.max(caloriesFastLose, 1200); // Минимум 1200 ккал
+
+    document.getElementById('resultContainer').classList.remove('d-none');
+});
+</script>
+
+<section class="container my-5">
+    <h2 class="text-center mb-4">💡 Как помогает калькулятор калорий?</h2>
+    <p>
+        Наш калькулятор позволяет женщинам рассчитать суточную норму калорий для поддержания веса или похудения.  
+        В основе расчёта – научно подтверждённая <strong>формула Миффлина-Сан Жеора</strong>, учитывающая ваш рост, вес, возраст и уровень активности.
+    </p>
+</section>
+
+{% endblock %}
